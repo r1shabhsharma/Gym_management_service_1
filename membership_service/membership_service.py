@@ -16,13 +16,12 @@ def home():
 def add_membership():
     data = request.get_json()
     new_membership = Membership(
-        member_id=data['member_id'],
         start_date=data['start_date'],
         expiry_date=data['expiry_date']
     )
     db.session.add(new_membership)
     db.session.commit()
-    return jsonify({'message': 'Membership added successfully'}), 201
+    return jsonify({'message': 'Membership added successfully', 'id':new_membership.id}), 201
 
 # Route to get all memberships
 @app.route('/memberships', methods=['GET'])
