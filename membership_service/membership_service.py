@@ -1,4 +1,3 @@
-# membership_service 
 from flask import Flask, request, jsonify
 from models import db, Membership
 
@@ -6,12 +5,11 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db.init_app(app)
 
-# Root route
 @app.route('/')
 def home():
-    return "Welcome to the Gym Management System API!"
+    return "Welcome to the Gym Membership Management Service!"
 
-# Route to add a new membership
+# To add a new membership
 @app.route('/memberships', methods=['POST'])
 def add_membership():
     data = request.get_json()
@@ -23,13 +21,13 @@ def add_membership():
     db.session.commit()
     return jsonify({'message': 'Membership added successfully', 'id':new_membership.id}), 201
 
-# Route to get all memberships
+# To get all memberships
 @app.route('/memberships', methods=['GET'])
 def get_memberships():
     memberships = Membership.query.all()
     return jsonify([membership.to_dict() for membership in memberships])
 
-# Route to update a membership
+# To update a membership
 @app.route('/memberships/<int:id>', methods=['PUT'])
 def update_membership(id):
     data = request.get_json()
@@ -41,7 +39,7 @@ def update_membership(id):
         return jsonify({'message': 'Membership updated successfully'})
     return jsonify({'message': 'Membership not found'}), 404
 
-# Route to delete a membership
+# To delete a membership
 @app.route('/memberships/<int:id>', methods=['DELETE'])
 def delete_membership(id):
     membership = Membership.query.get(id)
